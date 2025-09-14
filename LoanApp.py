@@ -16,7 +16,7 @@ from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report, roc_auc_score
 
 warnings.filterwarnings("ignore")
-st.set_page_config(page_title="Loan Prediction — Streamlit App", layout="wide")
+st.set_page_config(page_title="Loan Eligibility Prediction", layout="wide")
 
 # -------------------------
 # Default training file (from your notebook)
@@ -42,7 +42,7 @@ with st.sidebar:
     st.markdown(
         "[Dataset source — Analytics Vidhya practice problem](https://www.analyticsvidhya.com/datahack/contest/practice-problem-loan-prediction-iii/)"
     )
-    use_default = st.checkbox("Use default training file (notebook)", value=True)
+    use_default = st.checkbox("Use default training file", value=True)
     uploaded_train = st.file_uploader("Upload training file (CSV/XLSX)", type=["csv", "xlsx"])
     uploaded_test = st.file_uploader("Upload testing file (optional)", type=["csv", "xlsx"])
     preview_rows = st.slider("Preview rows", min_value=5, max_value=200, value=10)
@@ -88,8 +88,7 @@ if df is not None:
 st.title("Loan Eligibility — Interactive App")
 st.markdown(
     """
-This app is a Streamlit conversion of your notebook for the **Loan Prediction** problem.
-- Default training dataset: `train_ctrUa4K.csv` (from your notebook).
+- Default training dataset: `train_ctrUa4K.csv`.
 - You can upload alternate training or testing files from the sidebar.
 """
 )
