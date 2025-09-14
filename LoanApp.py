@@ -30,6 +30,8 @@ if "rf" not in st.session_state:
     st.session_state.rf = None
 if "xgb" not in st.session_state:
     st.session_state.xgb = None # placeholders for trained models
+if "feature_cols" not in st.session_state:
+    st.session_state.feature_cols=None
 
 with st.sidebar:
     st.title("Data & Files")
@@ -411,11 +413,11 @@ with tabs[3]:
         }, inplace=True)
 
         # Align with training feature columns
-        feature_cols = df_proc.drop("Loan_Status", axis=1).columns
-        missing_cols = set(feature_cols) - set(test_df.columns)
+        st.session_state.feature_cols = df_proc.drop("Loan_Status", axis=1).columns
+        missing_cols = set(st.session_state.feature_cols) - set(test_df.columns)
         for c in missing_cols:
             test_df[c] = 0
-        test_df = test_df[feature_cols]
+        test_df = test_df[st.session_state.feature_cols]
 
         # Scale test data (same scaler as training)
         scaler = MinMaxScaler()
@@ -536,12 +538,12 @@ with tabs[4]:
         input_df.rename(columns=rename_cols, inplace=True)
 
         # Add missing columns
-        for c in feature_cols:
+        for c in st.session_state.feature_cols:
             if c not in input_df.columns:
                 input_df[c] = 0
 
         # Ensure correct order
-        input_df = input_df[feature_cols]
+        input_df = input_df[st.session_state.feature_cols]
 
         # Scale using same scaler
         input_scaled = scaler.transform(input_df)
@@ -603,12 +605,12 @@ with tabs[5]:
     # Random Forest Importance
     if st.session_state.rf is not None:
         st.subheader("🌲 Random Forest Feature Importance")
-        plot_feature_importance(st.session_state.rf, feature_cols, "Random Forest")
+        plot_feature_importance(st.session_state.rf, st.session_state.feature_cols, "Random Forest")
 
         # XGBoost Importance
     if st.session_state.xgb is not None:
         st.subheader("🚀 XGBoost Feature Importance")
-        plot_feature_importance(st.session_state.xgb, feature_cols, "XGBoost")
+        plot_feature_importance(st.session_state.xgb, st.session_state.feature_cols, "XGBoost")
 
 # -------------------------
 # 7) Insights (placeholder)
