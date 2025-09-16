@@ -139,5 +139,3 @@ Contributions are welcome! Please fork the repo and submit a pull request.
 
 ---
 
-Do you want me to also generate the **`requirements.txt`** file content so your repo is fully ready for others to run?
-```
